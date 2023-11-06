@@ -2,6 +2,7 @@ from tkinter import *
 from turtle import ScrolledCanvas, RawTurtle, TurtleScreen
 import random
 from tkinter import Tk, Text
+import math
 root = Tk()
 canvas = ScrolledCanvas(root)
 canvas.pack(side=LEFT)
@@ -9,15 +10,20 @@ canvas.pack(side=LEFT)
 screen = TurtleScreen(canvas)
 turtle = RawTurtle(canvas)
 turtle.hideturtle()
-stx=random.randint(10,100)
-sty=random.randint(10,100)
+stx=random.randint(30,200)
+sty=random.randint(30,200)
 
 
 
 type=input("What type of")    
 
-N=int(input("Diameter of oval"))
+N=80
 N=N/2
+
+
+
+
+
 def type1():                                            #stredova sumernost
     canvas.create_oval(stx-N,sty-N,stx+N,sty+N)
     turtle.penup
@@ -32,6 +38,11 @@ def type1():                                            #stredova sumernost
 def type2():                                            #osova sumernost
     canvas.create_oval(stx-N,sty-N,stx+N,sty+N)
     canvas.create_line(0,0,0,100)
+    turtle.setposition(stx, sty)
+    turtle.rt(180)
+   
+    
+    
 
 def type3():                                            #posunutie
     canvas.create_oval(stx-N,sty-N,stx+N,sty+N)
