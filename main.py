@@ -2,9 +2,11 @@ from tkinter import *
 from turtle import ScrolledCanvas, RawTurtle, TurtleScreen
 import random
 from tkinter import Tk, Text
-import math
-root = Tk()
+import tkinter as tk
+
+root = Tk(className="Sumernosti")
 canvas = ScrolledCanvas(root)
+canvas=tk.Canvas(width=1000,height=1000) 
 canvas.pack(side=LEFT)
 
 screen = TurtleScreen(canvas)
@@ -67,5 +69,5 @@ if type == "3":
 if type == "4":
     type4()
 
-screen.mainloop()
+root.mainloop()
 
