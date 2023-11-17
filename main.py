@@ -17,11 +17,11 @@ turtle.hideturtle()
 
 type=input("What type of")    
 
-def quit():
+"""def quit():
     root.destroy()
 
 if type !="1234":
-    quit()
+    quit()"""
 
 
 
@@ -47,10 +47,12 @@ def type2():                                            #osova sumernost
     stx=random.randint(30,200)
     sty=random.randint(30,200)
     canvas.create_text(50,-100,text=("Os sumernosti"))
+    canvas.create_text(stx,sty-N-10,text="Vzor")
     canvas.create_oval(stx-N,sty-N,stx+N,sty+N)
-    canvas.create_line(0,-1000,0,1000)
+    canvas.create_line(0,-1100,0,1100)
     canvas.create_line(stx,sty,stx-(2*stx),sty)
-    
+    canvas.create_text((stx-2*stx),sty-N-10,text="Obraz")
+    canvas.create_oval((stx-2*stx)-N,sty-N,(stx-2*stx)+N,sty+N)
     
    
     
