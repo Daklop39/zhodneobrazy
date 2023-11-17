@@ -12,8 +12,6 @@ canvas.pack(side=LEFT)
 screen = TurtleScreen(canvas)
 turtle = RawTurtle(canvas)
 turtle.hideturtle()
-stx=random.randint(30,200)
-sty=random.randint(30,200)
 
 
 
@@ -27,9 +25,12 @@ N=N/2
 
 
 def type1():                                            #stredova sumernost
+    stx=random.randint(30,200)
+    sty=random.randint(30,200)
+    
     canvas.create_oval(stx-N,sty-N,stx+N,sty+N)
     turtle.penup
-    turtle.setposition(stx, sty)
+    turtle.setposition(100, 100)
     turtle.pendown
     stxs=0
     stys=0
@@ -38,21 +39,28 @@ def type1():                                            #stredova sumernost
     turtle.pensize(1)
 
 def type2():                                            #osova sumernost
+    stx=random.randint(30,200)
+    sty=random.randint(30,200)
     canvas.create_oval(stx-N,sty-N,stx+N,sty+N)
-    canvas.create_line(0,0,0,100)
-    turtle.setposition(stx, sty)
-    turtle.rt(180)
+    canvas.create_line(0,0,0,500)
+    canvas.create_line(stx,sty,0,sty)
+    
+    
    
     
     
 
 def type3():                                            #posunutie
+    stx=random.randint(30,200)
+    sty=random.randint(30,200)
     canvas.create_oval(stx-N,sty-N,stx+N,sty+N)
 
 
 
 
 def type4():                                            #rotacia
+    stx=random.randint(30,200)
+    sty=random.randint(30,200)    
     canvas.create_oval(stx-N,sty-N,stx+N,sty+N)
 
 
@@ -61,7 +69,6 @@ def type4():                                            #rotacia
 
 if type == "1":
     type1()
-
 if type == "2":
     type2()
 if type == "3":
