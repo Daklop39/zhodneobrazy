@@ -17,33 +17,39 @@ turtle.hideturtle()
 
 type=input("What type of")    
 
-N=80
-N=N/2
+def quit():
+    root.destroy()
+
+if type !="1234":
+    quit()
+
 
 
 
 
 
 def type1():                                            #stredova sumernost
+    N=3
     stx=random.randint(30,200)
     sty=random.randint(30,200)
-    
+    stxS=random.randint(-100,100)
+    styS=(-100,100)
+    canvas.create_oval(stxS,styS,stxS+N,styS+N,fill="black")
     canvas.create_oval(stx-N,sty-N,stx+N,sty+N)
-    turtle.penup
-    turtle.setposition(100, 100)
-    turtle.pendown
-    stxs=0
-    stys=0
-    turtle.pensize(5)
-    turtle.fd(0)
-    turtle.pensize(1)
+    
+   
+    
+    
 
 def type2():                                            #osova sumernost
+    N=80
+    N=N/2
     stx=random.randint(30,200)
     sty=random.randint(30,200)
+    canvas.create_text(50,-100,text=("Os sumernosti"))
     canvas.create_oval(stx-N,sty-N,stx+N,sty+N)
-    canvas.create_line(0,0,0,500)
-    canvas.create_line(stx,sty,0,sty)
+    canvas.create_line(0,-1000,0,1000)
+    canvas.create_line(stx,sty,stx-(2*stx),sty)
     
     
    
