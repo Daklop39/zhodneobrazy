@@ -12,12 +12,14 @@ screen = TurtleScreen(canvas)
 screen.setworldcoordinates(0, 1000, 1000, 0)
 quake = RawTurtle(screen)
 
-type=input("What type of")    
 
-quake.ht()
+
+#type=input("What type of")    
+
+
 def type1():                                            #stredova sumernost
     N=80
-    
+    quake.ht()
     stx=random.randint(100,900)
     sty=random.randint(110,900)
     stxS=500
@@ -68,47 +70,67 @@ def type1():                                            #stredova sumernost
 
 
 def type2():                                            #osova sumernost
+    quake.ht()
+    
     N=80
     N=N/2
-    stx=random.randint(30,200)
-    sty=random.randint(30,200)
+    stx=random.randint(100,800)
+    sty=random.randint(100,800)
+    canvas.create_line(500,0,500,1000)
     canvas.create_text(50,-100,text=("Os sumernosti"))
-    canvas.create_text(stx,sty-N-10,text="Vzor")
-    canvas.create_oval(stx-N,sty-N,stx+N,sty+N)
-    canvas.create_line(0,0,0,1100)
-    canvas.create_line(stx,sty,stx-(2*stx),sty)
-    canvas.create_text((stx-2*stx),sty-N-10,text="Obraz")
-    canvas.create_oval((stx-2*stx)-N,sty-N,(stx-2*stx)+N,sty+N)
     
-   
+    if stx >= 500:
+        quake.penup()
+        mvx=stx-500
+        canvas.create_text(stx,sty-N-10,text="Vzor")
+        canvas.create_oval(stx-N,sty-N,stx+N,sty+N)
+        quake.setposition(stx,sty)
+        quake.pendown()
+        quake.setposition(500-mvx,sty,)
+        canvas.create_oval(500-mvx-N,sty-N,500-mvx+N,sty+N)
+        canvas.create_text(500-mvx,sty-N-10,text="Obraz")
+        quake.penup()
+    
+    if stx <= 500:
+        quake.penup()
+        mvx=500-stx
+        canvas.create_text(stx,sty-N-10,text="Vzor")
+        canvas.create_oval(stx-N,sty-N,stx+N,sty+N)
+        quake.setposition(stx,sty)
+        quake.pendown()
+        quake.setposition(500+mvx,sty)
+        canvas.create_oval(500+mvx-N,sty-N,500+mvx+N,sty+N)
+        canvas.create_text(500+mvx,sty-N-10,text="Obraz")
+        quake.penup()
     
     
 
 def type3():                                            #posunutie
     stx=random.randint(30,200)
-    sty=random.randint(30,200)
-    canvas.create_oval(stx-N,sty-N,stx+N,sty+N)
+    
+    
 
 
 
 
 def type4():                                            #rotacia
     stx=random.randint(30,200)
-    sty=random.randint(30,200)    
-    canvas.create_oval(stx-N,sty-N,stx+N,sty+N)
+    
 
 
 
 
+button= Button(window,text= "stredová súmernosť", command=lambda : type1())
+button.place(relx=0,x=850,y=70,anchor = W)
 
-if type == "1":
-    type1()
-if type == "2":
-    type2()
-if type == "3":
-    type3()
-if type == "4":
-    type4()
+button= Button(window,text= "osová súmernosť", command=lambda : type2())
+button.place(relx=0,x=855,y=100,anchor = W)
+
+button= Button(window,text= "posunutie", command=lambda : type3())
+button.place(relx=0,x=875,y=130,anchor = W)
+
+button= Button(window,text= "rotácia", command=lambda : type4())
+button.place(relx=0,x=883,y=160,anchor = W)
 
 mainloop()
 
