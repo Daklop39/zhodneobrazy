@@ -118,7 +118,12 @@ def type4():                                            #rotacia
     
 
 
+        
 
+        
+
+#clearall = Button(window, text='reset', command=)
+#clearall.place(relx=0,x=500,y=70,anchor = W)
 
 button= Button(window,text= "stredová súmernosť", command=lambda : type1())
 button.place(relx=0,x=850,y=70,anchor = W)
