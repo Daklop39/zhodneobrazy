@@ -5,38 +5,67 @@ from tkinter import *
 import random
 
 window = tk.Tk()
-window.minsize(width = 720, height = 800)
-canvas = Canvas(window, width = 720, height = 800,bd=0)
+window.minsize(width = 1000, height = 1000)
+canvas = Canvas(window, width = 1000, height = 1000,bd=0)
 canvas.pack()
-
 screen = TurtleScreen(canvas)
-screen.setworldcoordinates(0, 800, 720, 0)
-
-#screen.setworldcoordinates(-180, -90, 180, 90)
-#canvas.create_line(0,0,720,800,fill="red")
-#canvas.create_line(720,0,0,800,fill="red")
+screen.setworldcoordinates(0, 1000, 1000, 0)
 quake = RawTurtle(screen)
-#quake.shape("circle")
-#quake.color("red")
-#quake.fd(0)
-#quake.goto(720,800)
 
 type=input("What type of")    
 
+quake.ht()
 def type1():                                            #stredova sumernost
-    N=50
-    S=3
-    stx=random.randint(30,200)
-    sty=random.randint(30,200)
-    stxS=random.randint(100,300)
-    styS=random.randint(100,300)
+    N=80
+    
+    stx=random.randint(100,900)
+    sty=random.randint(110,900)
+    stxS=500
+    styS=500
     canvas.create_text(stxS+4,styS-10,text="Stred")
-    canvas.create_oval(stxS,styS,stxS+S,styS+S,fill="black")
+    canvas.create_text(stx+7,sty,text="S")
+    canvas.create_oval(stx-2,sty-2,stx+2,sty+2,fill="black")
+    canvas.create_oval(stxS-2,styS-2,stxS+2,styS+2,fill="black")
     canvas.create_oval(stx-N,sty-N,stx+N,sty+N)
     
+    quake.penup()
+    quake.setposition(stx,sty)
+    quake.pendown()
+    quake.setposition(stxS,styS)
    
+    if stxS>= stx and styS>= sty:    #2.kv
+        mvx= stxS-stx
+        mvy= styS-sty
+        quake.setposition(stxS+mvx,styS+mvy)
+        canvas.create_oval(stxS+mvx-N,styS+mvy-N,stxS+mvx+N,styS+mvy+N)
+        canvas.create_oval(stxS+mvx-2,styS+mvy-2,stxS+mvx+2,styS+mvy+2,fill="black")
+        canvas.create_text(stxS+mvx,styS+mvy+10,text="S'")
     
+    if stxS>= stx and styS<= sty:    #3.kv
+        mvx= stxS-stx
+        mvy= sty-styS
+        quake.setposition(stxS+mvx,styS-mvy)
+        canvas.create_oval(stxS+mvx-N,styS-mvy-N,stxS+mvx+N,styS-mvy+N)
+        canvas.create_oval(stxS+mvx-2,styS-mvy-2,stxS+mvx+2,styS-mvy+2,fill="black")
+        canvas.create_text(stxS+mvx+7,styS-mvy,text="S'")
     
+    if stxS<= stx and styS<= sty:    #4.kv
+        mvx= stx-stxS
+        mvy= sty-styS
+        quake.setposition(stxS-mvx,styS-mvy)
+        canvas.create_oval(stxS-mvx-N,styS-mvy-N,stxS-mvx+N,styS-mvy+N)
+        canvas.create_oval(stxS-mvx-2,styS-mvy-2,stxS-mvx+2,styS-mvy+2,fill="black")
+        canvas.create_text(stxS-mvx-7,styS-mvy,text="S'")
+    
+    if stxS<= stx and styS>= sty:    #1.kv   
+        mvx= stx-stxS
+        mvy= styS-sty   
+        quake.setposition(stxS-mvx,styS+mvy)
+        canvas.create_oval(stxS-mvx-N,styS+mvy-N,stxS-mvx+N,styS+mvy+N)
+        canvas.create_oval(stxS-mvx-2,styS+mvy-2,stxS-mvx+2,styS+mvy+2,fill="black")
+        canvas.create_text(stxS-mvx,styS+mvy+10,text="S'")
+
+
 
 def type2():                                            #osova sumernost
     N=80
