@@ -3,6 +3,7 @@ from turtle import RawTurtle, TurtleScreen
 import tkinter as tk
 from tkinter import *
 import random
+from tkinter import messagebox
 
 window = tk.Tk()
 window.minsize(width = 1000, height = 1000)
@@ -11,6 +12,7 @@ canvas.pack()
 screen = TurtleScreen(canvas)
 screen.setworldcoordinates(0, 1000, 1000, 0)
 quake = RawTurtle(screen)
+
 
 
 
@@ -118,24 +120,61 @@ def type4():                                            #rotacia
     
 
 
-        
+#menu -----------------------------------------------------------------------------------------------
+root = tk.Tk()
+root.geometry("500x500")
+root.title("Option menu")
+def page1():
+    page = tk.Frame(root)
+    page.grid()
 
-        
+    button = Button(root, text="stredová súmernosť", command=lambda: page2())
+    button.place(relx=0, x=100, y=70, anchor=W)
 
-#clearall = Button(window, text='reset', command=)
-#clearall.place(relx=0,x=500,y=70,anchor = W)
+    button = Button(root, text="osová súmernosť", command=lambda: page3())
+    button.place(relx=0, x=100, y=100, anchor=W)
 
-button= Button(window,text= "stredová súmernosť", command=lambda : type1())
-button.place(relx=0,x=850,y=70,anchor = W)
+    button = Button(root, text="posunutie", command=lambda: page4())
+    button.place(relx=0, x=100, y=130, anchor=W)
 
-button= Button(window,text= "osová súmernosť", command=lambda : type2())
-button.place(relx=0,x=855,y=100,anchor = W)
+    button = Button(root, text="rotácia", command=lambda: page5())
+    button.place(relx=0, x=100, y=160, anchor=W)
 
-button= Button(window,text= "posunutie", command=lambda : type3())
-button.place(relx=0,x=875,y=130,anchor = W)
 
-button= Button(window,text= "rotácia", command=lambda : type4())
-button.place(relx=0,x=883,y=160,anchor = W)
+def page2():
+    
+    page = tk.Frame(root)
+    page.grid()
+    
+    diameter = tk.Label(root,text="diameter")
+    diameter.place(x=0, y=0)
+    tk.Button(page, text='generate', command=lambda:[type1,root.destroy()]).grid(row=3)
+    enter_diameter = tk.Entry(root)
+    enter_diameter.place(x=0, y=20) 
+    
+def page3():
+    page = tk.Frame(root)
+    page.grid()
+    tk.Label(page, text='choose an option').grid(row=0)
+    tk.Button(page, text='generate', command=type2).grid(row=1)  
 
+def page4():
+    page = tk.Frame(root)
+    page.grid()
+    tk.Label(page, text='choose an option').grid(row=0)
+    tk.Button(page, text='generate', command=type3).grid(row=1)
+def page5():
+    page = tk.Frame(root)
+    page.grid()
+    tk.Label(page, text='choose an option').grid(row=0)
+    tk.Button(page, text='generate', command=type4).grid(row=1)
+
+    
+
+page1()
+root.mainloop()
+       
+
+#----------------------------------------------------------------------------------------------------        
 mainloop()
 
