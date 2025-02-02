@@ -1,0 +1,236 @@
+
+import turtle
+import tkinter as tk
+from tkinter import messagebox, simpledialog
+import random
+import math
+
+# Create a single Tk instance
+root = tk.Tk()
+root.title("Turtle Transformations")
+root.geometry("1200x1000")  # Adjust window size as needed
+
+# Global center coordinates for transformations (default is (500, 500))
+center_x = 500
+center_y = 500
+
+# Create a canvas for turtle graphics and pack it on the left
+canvas = tk.Canvas(root, width=1000, height=1000, bd=0)
+canvas.pack(side=tk.LEFT)
+screen = turtle.TurtleScreen(canvas)
+# Set coordinate system (here (0,0) is top-left and (1000,1000) is bottom-right)
+screen.setworldcoordinates(0, 1000, 1000, 0)
+quake = turtle.RawTurtle(screen)
+quake.speed(5)  # Set a moderate default speed (1=slowest, 10=fastest)
+
+# ------------------ Transformation Functions ------------------
+
+def type1():
+    """Central symmetry: Reflect a random point about the user-defined center."""
+    global center_x, center_y
+    N = 80
+    quake.hideturtle()
+    quake.penup()  # ensure pen is up before starting
+
+    # Generate a random point S
+    stx = random.randint(100, 900)
+    sty = random.randint(110, 900)
+    
+    # Mark the center and the original point on the canvas
+    canvas.create_text(center_x + 4, center_y - 10, text="Stred", fill="red")
+    canvas.create_text(stx + 7, sty, text="S")
+    canvas.create_oval(stx - 2, sty - 2, stx + 2, sty + 2, fill="black")
+    canvas.create_oval(center_x - 2, center_y - 2, center_x + 2, center_y + 2, fill="red")
+    canvas.create_oval(stx - N, sty - N, stx + N, sty + N)
+    
+    # Draw a line from S to the center
+    quake.setposition(stx, sty)
+    quake.pendown()
+    quake.setposition(center_x, center_y)
+    
+    # Compute the reflection of S about the center:
+    stx_ref = 2 * center_x - stx
+    sty_ref = 2 * center_y - sty
+    
+    # Draw the reflected point S'
+    quake.setposition(stx_ref, sty_ref)
+    canvas.create_oval(stx_ref - N, sty_ref - N, stx_ref + N, sty_ref + N)
+    canvas.create_oval(stx_ref - 2, sty_ref - 2, stx_ref + 2, sty_ref + 2, fill="black")
+    canvas.create_text(stx_ref, sty_ref + 10, text="S'")
+    
+    # Reset turtle state
+    quake.penup()
+    quake.home()
+
+def type2():
+    """Axial symmetry: Reflect a random point across the vertical line x=500."""
+    quake.hideturtle()
+    N = 40  # half of 80
+    stx = random.randint(100, 800)
+    sty = random.randint(100, 800)
+    
+    # Draw the vertical axis of symmetry (fixed at x=500)
+    canvas.create_line(500, 0, 500, 1000)
+    canvas.create_text(50, 50, text="Os sumernosti")
+    
+    # Mark the original point ("Vzor")
+    canvas.create_text(stx, sty - N - 10, text="Vzor")
+    canvas.create_oval(stx - N, sty - N, stx + N, sty + N)
+    
+    quake.penup()
+    quake.setposition(stx, sty)
+    quake.pendown()
+    
+    # Reflection across the vertical line x = 500:
+    stx_ref = 1000 - stx  # reflection: x' = 1000 - x when axis is at x=500
+    quake.setposition(stx_ref, sty)
+    canvas.create_oval(stx_ref - N, sty - N, stx_ref + N, sty + N)
+    canvas.create_text(stx_ref, sty - N - 10, text="Obraz")
+    quake.penup()
+
+def type3():
+    """Translation (not yet implemented)."""
+    messagebox.showinfo("Info", "Posunutie (translation) not implemented yet.")
+
+def type4():
+    """Rotation: Rotates a random point around the center by the specified angle and direction."""
+    global center_x, center_y
+    quake.hideturtle()
+    N = 80
+    quake.penup()
+    # Generate a random point S
+    stx = random.randint(100, 900)
+    sty = random.randint(100, 900)
+    
+    # Draw the original point S and its circle
+    canvas.create_text(stx + 7, sty, text="S")
+    canvas.create_oval(stx - 2, sty - 2, stx + 2, sty + 2, fill="black")
+    canvas.create_oval(stx - N, sty - N, stx + N, sty + N)
+    
+    # Mark the current center on canvas
+    canvas.create_text(center_x + 4, center_y - 10, text="Stred", fill="red")
+    canvas.create_oval(center_x - 2, center_y - 2, center_x + 2, center_y + 2, fill="red")
+    
+    # Ask for the rotation angle in degrees
+    angle = simpledialog.askfloat("Rotácia", "Zadajte uhol rotácie v stupňoch:")
+    if angle is None:
+        return  # User cancelled
+    
+    # Ask for the rotation direction
+    direction = simpledialog.askstring("Rotácia", "Zadajte smer rotácie (cw pre smer hodinových ručičiek, ccw pre proti smeru hodinových ručičiek):")
+    if direction is None:
+        return  # User cancelled
+    direction = direction.strip().lower()
+    
+    if direction in ["cw", "clockwise"]:
+        angle = -abs(angle)
+    elif direction in ["ccw", "counterclockwise", "anticlockwise"]:
+        angle = abs(angle)
+    else:
+        messagebox.showerror("Error", "Neznámy smer. Zadajte prosím 'cw' alebo 'ccw'.")
+        return
+    
+    # Convert the angle to radians
+    theta = math.radians(angle)
+    
+    # Calculate the rotated coordinates using the rotation formulas about the center (center_x, center_y):
+    #   x' = cx + (x - cx)*cos(theta) - (y - cy)*sin(theta)
+    #   y' = cy + (x - cx)*sin(theta) + (y - cy)*cos(theta)
+    dx = stx - center_x
+    dy = sty - center_y
+    stx_rot = center_x + dx * math.cos(theta) - dy * math.sin(theta)
+    sty_rot = center_y + dx * math.sin(theta) + dy * math.cos(theta)
+    
+    # Draw a line from S to the rotated point S'
+    quake.penup()
+    quake.setposition(stx, sty)
+    quake.pendown()
+    quake.setposition(stx_rot, sty_rot)
+    
+    # Draw the rotated point S'
+    canvas.create_oval(stx_rot - N, sty_rot - N, stx_rot + N, sty_rot + N)
+    canvas.create_oval(stx_rot - 2, sty_rot - 2, stx_rot + 2, sty_rot + 2, fill="black")
+    canvas.create_text(stx_rot, sty_rot + 10, text="S'")
+    quake.penup()
+
+def set_center():
+    """Let the user set a new center point via a dialog."""
+    global center_x, center_y
+    new_x = simpledialog.askinteger("Nastav stred", "Zadajte x súradnicu stredu (0-1000):",
+                                    initialvalue=center_x, minvalue=0, maxvalue=1000)
+    new_y = simpledialog.askinteger("Nastav stred", "Zadajte y súradnicu stredu (0-1000):",
+                                    initialvalue=center_y, minvalue=0, maxvalue=1000)
+    if new_x is not None and new_y is not None:
+        center_x = new_x
+        center_y = new_y
+        canvas.create_oval(center_x - 2, center_y - 2, center_x + 2, center_y + 2, fill="red")
+        canvas.create_text(center_x + 4, center_y - 10, text="Stred", fill="red")
+        messagebox.showinfo("Info", f"Stred nastavený na ({center_x}, {center_y})")
+
+def delete_all():
+    """Delete all drawings from the canvas."""
+    canvas.delete("all")
+    quake.clear()
+
+def set_pen_speed():
+    """Let the user set the turtle's pen speed (1=slowest, 10=fastest)."""
+    new_speed = simpledialog.askinteger("Nastav rýchlosť pera", 
+                                          "Zadajte rýchlosť (1=spomalená, 10=rýchla):",
+                                          initialvalue=5, minvalue=1, maxvalue=10)
+    if new_speed is not None:
+        quake.speed(new_speed)
+        messagebox.showinfo("Info", f"Rýchlosť pera nastavená na {new_speed}")
+
+# ------------------ Menu ------------------
+
+# Create a frame for the menu on the right side
+menu_frame = tk.Frame(root)
+menu_frame.pack(side=tk.RIGHT, fill=tk.BOTH, expand=True, padx=20, pady=20)
+
+# Header for the menu
+header = tk.Label(menu_frame, text="Vyberte transformáciu", font=("Arial", 16))
+header.pack(pady=10)
+
+# Buttons for each transformation type
+btn_type1 = tk.Button(menu_frame, text="Stredová súmernosť", width=20, command=type1)
+btn_type1.pack(pady=5)
+
+btn_type2 = tk.Button(menu_frame, text="Osová súmernosť", width=20, command=type2)
+btn_type2.pack(pady=5)
+
+btn_type3 = tk.Button(menu_frame, text="Posunutie", width=20, command=type3)
+btn_type3.pack(pady=5)
+
+btn_type4 = tk.Button(menu_frame, text="Rotácia", width=20, command=type4)
+btn_type4.pack(pady=5)
+
+# Button to set the center
+btn_set_center = tk.Button(menu_frame, text="Nastav stred", width=20, command=set_center)
+btn_set_center.pack(pady=5)
+
+# Button to delete all drawings
+btn_delete_all = tk.Button(menu_frame, text="Vymaž všetko", width=20, command=delete_all)
+btn_delete_all.pack(pady=5)
+
+# Button to set pen speed
+btn_set_speed = tk.Button(menu_frame, text="Nastav rýchlosť pera", width=20, command=set_pen_speed)
+btn_set_speed.pack(pady=5)
+
+# ------------------ Main Loop ------------------
+
+root.mainloop()
+
+
+from tkinter import *
+from turtle import ScrolledCanvas, RawTurtle, TurtleScreen
+
+root = Tk()
+canvas = ScrolledCanvas(root)
+canvas.pack(side=LEFT)
+
+screen = TurtleScreen(canvas)
+turtle = RawTurtle(canvas)
+turtle.down()
+turtle.bk(100)
+
+screen.mainloop()
